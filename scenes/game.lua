@@ -7,6 +7,7 @@ function scene:begin()
 	self.cameraController = self:newInstance(Class.cameraController, {self.camera}, 'mouse', 'resize')
 
 	-- Setup Gui
+	self.interface = self:newInstance(Class.desktop, {}, 'mouse')
 	self.unitWidget = self:newInstance(Class.unitWidget, {}, 'update')
 	self.terrainWidget = self:newInstance(Class.terrainWidget, {}, 'update')
 	self.cardWidget = self:newInstance(Class.cardWidget, {}, 'update', 'mouse')
@@ -53,41 +54,8 @@ end
 
 -- Event Functions
 function scene:mousepressed(x, y, button)
-	-- If the toolbar was clicked, don't pass the event on to other objects
-	if button == 1 then
-		if not self.cardWidget:mousepressed(x, y, button) then
-			local cellX, cellY, item = self.grid:mousepressed(x, y, button)
-			if self.selected then
-				local unit = self.grid:get(self.selected.x, self.selected.y)
-				if item then
-					if item.team == self.activeTeam then
-						self.selected = {x=cellX, y=cellY}
-					else
-						for _, target in ipairs(unit.attackable) do
-							if (target.x == item.x) and (target.y == item.y) then
-								unit:attack(target)
-							end
-						end
-						self.selected = nil
-					end
-				elseif not unit.rest then
-					for _, node in ipairs(unit.walkable.closedNodes) do
-						if node.x == cellX and node.y == cellY then
-							unit:move(node)
-							break
-						end
-					end
-					self.selected = nil
-				end
-			else
-				if item then
-					if item.team == self.activeTeam and not item.rest then
-					 	self.selected = {x=cellX, y=cellY}
-					end
-				end
-			end
-		end
-	end
+	self.interface:mousepressed(x, y, button)
+	self:exec('mouse', 'mousepressed', x, y, button)
 end
 
 function scene:mousemoved(x, y, dx, dy, istouch)
@@ -136,18 +104,18 @@ function scene:draw()
 						end
 					end
 					if draw == true then
-						love.graphics.setColor(0, 0, 192, 64)
+						love.graphics.setColor(0, 0, 0.75, 0.25)
 						love.graphics.rectangle('fill', (node.x-1)*16, (node.y-1)*16, 16, 16)
-						love.graphics.setColor(255, 255, 255, 255)
+						love.graphics.setColor(1, 1, 1, 1)
 					end
 				end
 			end
 			-- Outline attackable enemies
 			if selected.attackable then
 				for _, node in ipairs(selected.attackable) do
-					love.graphics.setColor(192, 0, 0, 192)
+					love.graphics.setColor(0.75, 0, 0, 0.75)
 					love.graphics.rectangle('line', (node.x-1)*16, (node.y-1)*16, 16, 16)
-					love.graphics.setColor(255, 255, 255, 255)
+					love.graphics.setColor(1, 1, 1, 1)
 				end
 			end
 		end
@@ -157,7 +125,7 @@ function scene:draw()
 			local x, y = self.grid:toScreen(self.selected.x, self.selected.y)
 			local cellSize = self.grid.cellSize
 			local quad = Lib.getQuad(Res.tileset, 4, 43, 16, 16)
-			love.graphics.setColor(255, 255, 255, 255)
+			love.graphics.setColor(1, 1, 1, 1)
 			love.graphics.draw(Res.tileset, quad, x, y)
 		end
 	end)

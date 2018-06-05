@@ -1,8 +1,6 @@
 local Array = {}
 
 function Array:new(width, height)
-    Lib.barrack.check({width, height}, {'number', 'number'})
-    assert(type(width) == 'number' and type(height) == 'number', "[Array] Invalid width / height")
     self.cells = {}
     self.width = width
     self.height = height
@@ -11,7 +9,6 @@ function Array:new(width, height)
 end
 
 function Array:set(x, y, value)
-    Lib.barrack.check({x, y}, {'int', 'int'})
     if x <= self.width and y <= self.height then
         self.cells[((y-1)*self.width)+x] = value
     else
@@ -20,7 +17,6 @@ function Array:set(x, y, value)
 end
 
 function Array:get(x, y)
-    Lib.barrack.check({x, y}, {'int', 'int'})
     return self.cells[((y-1)*self.width)+x]
 end
 

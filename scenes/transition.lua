@@ -16,25 +16,25 @@ function scene:update(dt)
         end
         activeScene = self.scene2 -- Switch to the new scene
         love.graphics.setBlendMode("alpha") -- Return blending to normal
-        love.graphics.setColor(255, 255, 255, 255) -- Return draw color to normal
+        love.graphics.setColor(1, 1, 1, 1) -- Return draw color to normal
     end
 end
 
 function scene:draw()
     local canvas = love.graphics.newCanvas()
-    local opacity = 255*(1-(self.time/self.length))
+    local opacity = 1-(self.time/self.length)
 
     -- Draw Scene 2 to screen
     self.scene2:draw()
 
     -- Draw Scene 1 to canvas
     love.graphics.setCanvas(canvas)
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     self.scene1:draw()
 
     -- Draw Scene 1 to screen
     love.graphics.setCanvas()
-    love.graphics.setColor(255, 255, 255, opacity)
+    love.graphics.setColor(1, 1, 1, opacity)
     love.graphics.draw(canvas)
 end
 

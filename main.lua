@@ -20,6 +20,7 @@ Lib.getQuad = require('libraries/getQuad')
 -- Load Resources
 Res = {}
 Res.tileset = love.graphics.newImage('resources/tileset.png')
+Res.smallFont = love.graphics.newFont('resources/font.ttf', 4*Game.scale)
 Res.font = love.graphics.newFont('resources/font.ttf', 8*Game.scale)
 Res.bigFont = love.graphics.newFont('resources/font.ttf', 72)
 
@@ -40,10 +41,11 @@ Class.deck = require('class/deck')
 Class.card = require('class/card/card')
 Class.cardFireball = require('class/card/fireball')
 Class.cameraController = require('class/control/camera')
+Class.desktop = require('class/interface/desktop')
+Class.hitIndicator = require('class/interface/hitIndicator')
 
 -- Initialize Scenes
 Scene = {}
-Scene.splash = Class.scene:load('scenes/splash')
 Scene.game = Class.scene:load('scenes/game')
 
 activeScene = Scene.game
@@ -85,9 +87,9 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.setColor(1, 1, 1, 1)
 	activeScene:draw()
 
-	love.graphics.setColor(0, 255, 0, 255)
+	love.graphics.setColor(0, 1, 0, 1)
 	love.graphics.print( love.timer.getFPS(), 5, 5)
 end

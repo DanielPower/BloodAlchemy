@@ -1,4 +1,8 @@
 local UnitWidget = Lib.class('Widget', Class.widget)
+UnitWidget.healthFillColor = {1.000, 0.039, 0.039, 1.000}
+UnitWidget.healthOutlineColor = {0.227, 0.169, 0.137, 1.000}
+UnitWidget.energyFillColor = {0.918, 0.584, 0.078, 1.000}
+UnitWidget.energyOutlineColor = {0.227, 0.169, 0.137, 1.000}
 
 function UnitWidget:create()
     Class.widget.create(self, 80, 32)
@@ -28,18 +32,18 @@ function UnitWidget:draw(x, y, scale)
         love.graphics.draw(Res.tileset, unit.quad, x+(4*scale), y+(12*scale), 0, scale)
 
         -- Draw text
-        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.setColor(0, 0, 0, 1)
         love.graphics.setFont(Res.font)
         love.graphics.print(unit.class.name, x+(4*scale), y+(1*scale))
         love.graphics.print("Health: ", x+(24*scale), y+(8*scale))
         love.graphics.print((unit.hp..' / '..unit.maxHp), x+(56*scale), y+(8*scale))
         love.graphics.print("Energy: ", x+(24*scale), y+(18*scale))
         love.graphics.print((unit.movementPoints..' / '..unit.moveSpeed), x+(56*scale), y+(18*scale))
-        love.graphics.setColor(255, 255, 255, 255)
+        love.graphics.setColor(1, 1, 1, 1)
 
         -- Draw health and energy bar
-        self:drawBar(x+(24*scale), y+(15*scale), 52*scale, 3*scale, (unit.hp/unit.maxHp), {255, 10, 10, 255}, {58, 43, 35, 255})
-        self:drawBar(x+(24*scale), y+(25*scale), 52*scale, 3*scale, (unit.movementPoints/unit.moveSpeed), {234, 149, 20, 255}, {58, 43, 35, 255})
+        self:drawBar(x+(24*scale), y+(15*scale), 52*scale, 3*scale, (unit.hp/unit.maxHp), self.healthFillColor, self.healthOutlineColor)
+        self:drawBar(x+(24*scale), y+(25*scale), 52*scale, 3*scale, (unit.movementPoints/unit.moveSpeed), self.energyFillColor, self.energyOutlineColor)
 
         return true
     end

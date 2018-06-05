@@ -1,5 +1,5 @@
 local CardWidget = Lib.class('CardWidget', Class.widget)
-CardWidget.slotColor = {97, 68, 43, 192}
+CardWidget.slotColor = {0.38, 0.27, 0.17, 0.75}
 CardWidget.expanderColor = {}
 
 
@@ -48,7 +48,7 @@ function CardWidget:draw()
     love.graphics.rectangle('fill', self.x+(38*scale), self.y+(6*scale), 16*scale, 16*scale)
     love.graphics.rectangle('fill', self.x+(56*scale), self.y+(6*scale), 16*scale, 16*scale)
     love.graphics.rectangle('fill', self.x+(74*scale), self.y+(6*scale), 16*scale, 16*scale)
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
 
     local scene = self.scene
     local hand = scene.team[scene.activeTeam].hand

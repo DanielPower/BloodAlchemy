@@ -35,10 +35,17 @@ function Unit:attack(target)
         self.rest = true
         self.attackable = {}
         self.walkable = {}
-        target.hp = target.hp - self.damage
-        if target.hp <= 0 then
-            target:kill()
-        end
+        target:hit(self.damage)
+    end
+end
+
+function Unit:hit(damage)
+    local grid = self.grid
+    local x, y = grid:toScreen(self.x, self.y)
+    self.scene:newInstance(Class.hitIndicator, {x, y, damage, 2}, 'draw', 'update')
+    self.hp = self.hp - damage
+    if self.hp <= 0 then
+        self:kill()
     end
 end
 
