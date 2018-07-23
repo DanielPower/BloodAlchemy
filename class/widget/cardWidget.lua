@@ -1,18 +1,22 @@
-local CardWidget = Lib.class('CardWidget', Class.widget)
+local class = require('libraries/middleclass')
+
+local Widget = require('class/widget')
+
+local CardWidget = class('CardWidget', Widget)
 CardWidget.slotColor = {0.38, 0.27, 0.17, 0.75}
 CardWidget.expanderColor = {}
 
 
-function CardWidget:create()
-    Class.widget.create(self, 92, 24)
+function CardWidget:create(camera)
+    Widget.create(self, 92, 24)
     self.x = 0
     self.y = 0
-
+    self.camera = camera
     self.expand = true
 end
 
 function CardWidget:mousepressed(x, y, button)
-    local mouseX, mouseY = self.scene.camera:toWorld(x, y)
+    local mouseX, mouseY = self.camera:toWorld(x, y)
     if (mouseX > self.x) and (mouseX < self.x + self.width)
     and (mouseY > self.y) and (mouseY < self.y + 4) then
         self.expand = not self.expand
@@ -28,7 +32,7 @@ function CardWidget:mousepressed(x, y, button)
 end
 
 function CardWidget:update(dt)
-    local scale = self.scene.camera.scale
+    local scale = self.camera.scale
     self.x = (love.graphics.getWidth()/2) - (self.width*scale/2)
     if self.expand then
         self.y = love.graphics.getHeight() - (self.height*scale)
@@ -38,9 +42,9 @@ function CardWidget:update(dt)
 end
 
 function CardWidget:draw()
-    local scale = self.scene.camera.scale
+    local scale = self.camera.scale
 
-    Class.widget.draw(self, self.x, self.y, scale)
+    Widget.draw(self, self.x, self.y, scale)
     love.graphics.setColor(self.slotColor)
     love.graphics.line(self.x, self.y+(4*scale), self.x+(self.width*scale), self.y+(4*scale))
     love.graphics.rectangle('fill', self.x+(2*scale), self.y+(6*scale), 16*scale, 16*scale)

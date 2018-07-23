@@ -1,4 +1,5 @@
-local Deck = Lib.class('Deck')
+local class = require('libraries/middleclass')
+local Deck = class('Deck')
 
 function Deck:initialize(...)
     args = {...}

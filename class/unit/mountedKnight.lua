@@ -1,10 +1,14 @@
-local MountedKnight = Lib.class('MountedKnight', Class.unit)
+local class = require('libraries/middleclass')
+
+local Unit = require('class/unit')
+
+local MountedKnight = class('MountedKnight', Unit)
 MountedKnight.damage = 2
 MountedKnight.maxHp = 8
 MountedKnight.moveSpeed = 5
 
 function MountedKnight:create(grid, x, y, team)
-    Class.unit.create(self, grid, x, y, team)
+    Unit.create(self, grid, x, y, team)
 end
 
 function MountedKnight:validTargets()

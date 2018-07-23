@@ -1,17 +1,22 @@
-local UnitWidget = Lib.class('Widget', Class.widget)
+local class = require('libraries/middleclass')
+
+local Widget = require('class/widget')
+
+local UnitWidget = class('Widget', Widget)
 UnitWidget.healthFillColor = {1.000, 0.039, 0.039, 1.000}
 UnitWidget.healthOutlineColor = {0.227, 0.169, 0.137, 1.000}
 UnitWidget.energyFillColor = {0.918, 0.584, 0.078, 1.000}
 UnitWidget.energyOutlineColor = {0.227, 0.169, 0.137, 1.000}
 
-function UnitWidget:create()
-    Class.widget.create(self, 80, 32)
+function UnitWidget:create(camera)
+    Widget.create(self, 80, 32)
+    self.camera = camera
 end
 
 function UnitWidget:update(dt)
     local grid = self.scene.grid
     local selected = self.scene.selected
-    local mouseX, mouseY = self.scene.camera:toWorld(love.mouse.getPosition())
+    local mouseX, mouseY = self.camera:toWorld(love.mouse.getPosition())
     local cellX, cellY = grid:toGrid(mouseX, mouseY)
 
     if selected then
@@ -26,7 +31,7 @@ function UnitWidget:draw(x, y, scale)
         local unit = self.hovered
 
         -- Draw Background
-        Class.widget.draw(self, x, y, scale)
+        Widget.draw(self, x, y, scale)
 
         -- Draw unit image
         love.graphics.draw(Res.tileset, unit.quad, x+(4*scale), y+(12*scale), 0, scale)

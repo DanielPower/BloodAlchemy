@@ -1,15 +1,20 @@
-local TerrainWidget = Lib.class('TerrainWidget', Class.widget)
+local class = require('libraries/middleclass')
 
-function TerrainWidget:create()
-    Class.widget.create(self, 80, 24)
+local Widget = require('class/widget')
+
+local TerrainWidget = class('TerrainWidget', Widget)
+
+function TerrainWidget:create(camera)
+    Widget.create(self, 80, 24)
     self.location = 'left'
+    self.camera = camera
 end
 
-function TerrainWidget:update(dt)
+function TerrainWidget:update()
     local grid = self.scene.grid
     local map = self.scene.map
 
-    local mouseX, mouseY = self.scene.camera:toWorld(love.mouse.getPosition())
+    local mouseX, mouseY = self.camera:toWorld(love.mouse.getPosition())
     local cellX, cellY = grid:toGrid(mouseX, mouseY)
 
     for layer=#map.layers, 0, -1 do
@@ -25,7 +30,7 @@ end
 
 function TerrainWidget:draw(x, y, scale)
     if self.tile then
-        Class.widget.draw(self, x, y, scale)
+        Widget.draw(self, x, y, scale)
         love.graphics.draw(Res.tileset, self.tile.quad, x+(4*scale), y+(4*scale), 0, scale)
         love.graphics.setColor(0, 0, 0, 1)
         love.graphics.setFont(Res.font)

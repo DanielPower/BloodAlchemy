@@ -1,10 +1,15 @@
-local Archer = Lib.class('Archer', Class.unit)
+local class = require('libraries/middleclass')
+
+local Unit = require('class/unit')
+
+
+local Archer = class('Archer', Unit)
 Archer.damage = 3
 Archer.maxHp = 4
 Archer.moveSpeed = 4
 
 function Archer:create(grid, x, y, team)
-    Class.unit.create(self, grid, x, y, team)
+    Unit.create(self, grid, x, y, team)
 end
 
 function Archer:validTargets()

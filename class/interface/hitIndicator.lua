@@ -1,4 +1,5 @@
-local hitIndicator = Lib.class('hitWidget')
+local class = require('libraries/middleclass')
+local hitIndicator = class('hitWidget')
 
 function hitIndicator:create(x, y, num, time, color)
     self.x = x

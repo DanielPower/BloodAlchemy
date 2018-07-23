@@ -1,4 +1,5 @@
-local CameraController = Lib.class('CameraController')
+local class = require('libraries/middleclass')
+local CameraController = class('CameraController')
 
 function CameraController:create(camera)
     self.camera = camera

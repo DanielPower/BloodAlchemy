@@ -1,10 +1,14 @@
-local Militia = Lib.class('Militia', Class.unit)
+local class = require('libraries/middleclass')
+
+local Unit = require('class/unit')
+
+local Militia = class('Militia', Unit)
 Militia.damage = 3
 Militia.maxHp = 6
 Militia.moveSpeed = 4
 
 function Militia:create(grid, x, y, team)
-    Class.unit.create(self, grid, x, y, team)
+    Unit.create(self, grid, x, y, team)
 end
 
 function Militia:validTargets()

@@ -1,10 +1,14 @@
-local Knight = Lib.class('Knight', Class.unit)
+local class = require('libraries/middleclass')
+
+local Unit = require('class/unit')
+
+local Knight = class('Knight', Unit)
 Knight.damage = 4
 Knight.maxHp = 10
 Knight.moveSpeed = 3
 
 function Knight:create(grid, x, y, team)
-    Class.unit.create(self, grid, x, y, team)
+    Unit.create(self, grid, x, y, team)
 end
 
 function Knight:validTargets()

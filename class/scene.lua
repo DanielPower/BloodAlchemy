@@ -1,4 +1,6 @@
-local Scene = Lib.class('Scene')
+local class = require('libraries/middleclass')
+
+local Scene = class('Scene')
 
 function Scene:initialize()
 	self.groups = {}
@@ -6,7 +8,6 @@ function Scene:initialize()
 end
 
 function Scene:load(file, ...)
-	Lib.barrack.check({file}, {'string'})
 	args = {...}
 	local scene = require(file)
 	if scene.begin then
@@ -20,7 +21,6 @@ function Scene:load(file, ...)
 end
 
 function Scene:newInstance(class, args, ...)
-	Lib.barrack.check({class, args}, {'table', 'table'})
 	local instance = class:new()
 	instance._groups = {}
 	instance.scene = self
@@ -35,7 +35,6 @@ function Scene:newInstance(class, args, ...)
 end
 
 function Scene:add(instance, ...)
-	Lib.barrack.check({instance}, {'table'})
 	local groups = {...}
 	for _, group in pairs(groups) do
 		-- Create the group if it does not exist yet
@@ -58,7 +57,6 @@ function Scene:add(instance, ...)
 end
 
 function Scene:remove(instance, ...)
-	Lib.barrack.check({instance}, {'table'})
 	local groups = {...}
 	for _, group in pairs(self.groups) do
 		for i=#group, 0, -1 do
@@ -70,7 +68,6 @@ function Scene:remove(instance, ...)
 end
 
 function Scene:destroyInstance(instance)
-	Lib.barrack.check({instance}, {'table'})
 	if instance.destroy then
 		instance:destroy()
 	end
@@ -79,7 +76,6 @@ function Scene:destroyInstance(instance)
 end
 
 function Scene:exec(group, func, ...)
-	Lib.barrack.check({group, func}, {'string', 'string'})
 	-- Remove any instances in the destroyQueue first
 	for instance in pairs(self.destroyQueue) do
 		self:remove(instance, unpack(instance._groups))

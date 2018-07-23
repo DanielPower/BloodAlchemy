@@ -1,21 +1,14 @@
+local Scene = require('class/scene')
+
 love.graphics.setDefaultFilter("nearest")
+-- Debug
+inspect = require('libraries/inspect')
+
 -- Global variables
 Game = {}
 Game.scale = 1
 Game.width = 240
 Game.height = 160
-
--- Import Libraries
-Lib = {}
-Lib.array = require('libraries/array')
-Lib.barrack = require('libraries/barrack'); Lib.barrack.enable()
-Lib.class = require('libraries/middleclass')
-Lib.inspect = require('libraries/inspect')
-Lib.pathfinder = require('libraries/pathfinder')
-Lib.sti = require('libraries/sti')
-Lib.cpml = require('libraries/cpml')
-Lib.gamera = require('libraries/gamera')
-Lib.getQuad = require('libraries/getQuad')
 
 -- Load Resources
 Res = {}
@@ -24,31 +17,8 @@ Res.smallFont = love.graphics.newFont('resources/font.ttf', 4*Game.scale)
 Res.font = love.graphics.newFont('resources/font.ttf', 8*Game.scale)
 Res.bigFont = love.graphics.newFont('resources/font.ttf', 72)
 
--- Include Classes
-Class = {}
-Class.scene = require('class/scene')
-Class.unit = require('class/unit/unit')
-	Class.archer = require('class/unit/archer')
-	Class.militia = require('class/unit/militia')
-	Class.knight = require('class/unit/knight')
-	Class.mountedKnight = require('class/unit/mountedKnight')
-Class.grid = require('class/grid')
-Class.widget = require('class/widget/widget')
-	Class.unitWidget = require('class/widget/unitWidget')
-	Class.terrainWidget = require('class/widget/terrainWidget')
-	Class.cardWidget = require('class/widget/cardWidget')
-Class.deck = require('class/deck')
-Class.card = require('class/card/card')
-Class.cardFireball = require('class/card/fireball')
-Class.cameraController = require('class/control/camera')
-Class.desktop = require('class/interface/desktop')
-Class.hitIndicator = require('class/interface/hitIndicator')
-
 -- Initialize Scenes
-Scene = {}
-Scene.game = Class.scene:load('scenes/game')
-
-activeScene = Scene.game
+activeScene = Scene:load('class/scene/game')
 
 function love.mousepressed(x, y, button)
 	activeScene:mousepressed(x, y, button)

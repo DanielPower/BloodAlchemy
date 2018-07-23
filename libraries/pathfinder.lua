@@ -2,7 +2,6 @@ local Pathfinder = {}
 
 -- Class Functions
 function Pathfinder.getNode(nodes, x, y, gCost)
-    Lib.barrack.check({nodes, x, y}, {'table', 'int', 'int'})
     -- Ensure node isn't already in table
     for index, node in ipairs(nodes) do
         if node.x == x and node.y == y then
@@ -22,7 +21,6 @@ function Pathfinder.getNode(nodes, x, y, gCost)
 end
 
 function Pathfinder.setupNeighbors(nodes)
-    Lib.barrack.check({nodes}, {'table'})
     for _, node in ipairs(nodes) do
 		node.neighbors = {}
 		for index, potentialNeighbor in ipairs(nodes) do
@@ -38,7 +36,6 @@ end
 
 -- Instance Functions
 function Pathfinder:new(nodes, start, maxDistance)
-    Lib.barrack.check({nodes, start, maxDistance}, {'table', 'number', 'number'})
     self.nodes = nodes
     self.nodes[start].fCost = 0
     self.start = start
@@ -69,7 +66,6 @@ function Pathfinder:new(nodes, start, maxDistance)
 end
 
 function Pathfinder:newPath(node)
-    Lib.barrack.check({node}, {'table'})
     local node = self.nodes[node]
     local path = {node}
     while node.parent do
@@ -82,7 +78,6 @@ end
 
 -- Local Functions
 function Pathfinder:_openNode(node, parent, maxDistance)
-    Lib.barrack.check({node, parent, maxDistance}, {'table', 'int', 'number'})
     local better = false
     local fCost = self.nodes[parent].fCost + node.gCost
 
