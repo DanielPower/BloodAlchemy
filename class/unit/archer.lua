@@ -22,22 +22,15 @@ function Archer:validTargets()
         end
     end
 
-    checkTarget(self.x-2, self.y-2)
-    checkTarget(self.x-2, self.y-1)
-    checkTarget(self.x-2, self.y)
-    checkTarget(self.x-2, self.y+1)
-    checkTarget(self.x-2, self.y+2)
-    checkTarget(self.x-1, self.y-2)
-    checkTarget(self.x-1, self.y+2)
     checkTarget(self.x, self.y-2)
+    checkTarget(self.x-1, self.y-1)
+    checkTarget(self.x-2, self.y)
+    checkTarget(self.x-1, self.y+1)
     checkTarget(self.x, self.y+2)
-    checkTarget(self.x+1, self.y-2)
-    checkTarget(self.x+1, self.y+2)
-    checkTarget(self.x+2, self.y-2)
-    checkTarget(self.x+2, self.y-1)
+    checkTarget(self.x+1, self.y+1)
     checkTarget(self.x+2, self.y)
-    checkTarget(self.x+2, self.y+1)
-    checkTarget(self.x+2, self.y+2)
+    checkTarget(self.x+1, self.y-1)
+
 
     return targets
 end

@@ -1,7 +1,7 @@
 return {
   version = "1.1",
   luaversion = "5.1",
-  tiledversion = "0.18.1",
+  tiledversion = "1.1.6",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 15,
@@ -24,6 +24,11 @@ return {
       tileoffset = {
         x = 0,
         y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 16,
+        height = 16
       },
       properties = {},
       terrains = {},
@@ -644,7 +649,7 @@ return {
   layers = {
     {
       type = "tilelayer",
-      name = "DecorationGround",
+      name = "decorationGround",
       x = 0,
       y = 0,
       width = 15,
@@ -670,7 +675,7 @@ return {
     },
     {
       type = "tilelayer",
-      name = "DecorationWater",
+      name = "decorationWater",
       x = 0,
       y = 0,
       width = 15,
@@ -696,7 +701,7 @@ return {
     },
     {
       type = "tilelayer",
-      name = "Main",
+      name = "main",
       x = 0,
       y = 0,
       width = 15,
@@ -722,7 +727,7 @@ return {
     },
     {
       type = "tilelayer",
-      name = "Wall",
+      name = "wall",
       x = 0,
       y = 0,
       width = 15,
@@ -748,7 +753,7 @@ return {
     },
     {
       type = "tilelayer",
-      name = "Decoration",
+      name = "decoration",
       x = 0,
       y = 0,
       width = 15,
@@ -774,7 +779,7 @@ return {
     },
     {
       type = "tilelayer",
-      name = "Unit",
+      name = "unit",
       x = 0,
       y = 0,
       width = 15,

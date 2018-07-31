@@ -6,15 +6,14 @@ inspect = require('libraries/inspect')
 
 -- Global variables
 Game = {}
-Game.scale = 1
 Game.width = 240
 Game.height = 160
 
 -- Load Resources
 Res = {}
 Res.tileset = love.graphics.newImage('resources/tileset.png')
-Res.smallFont = love.graphics.newFont('resources/font.ttf', 4*Game.scale)
-Res.font = love.graphics.newFont('resources/font.ttf', 8*Game.scale)
+Res.smallFont = love.graphics.newFont('resources/font.ttf', 4)
+Res.font = love.graphics.newFont('resources/font.ttf', 8)
 Res.bigFont = love.graphics.newFont('resources/font.ttf', 72)
 
 -- Initialize Scenes
@@ -62,4 +61,5 @@ function love.draw()
 
 	love.graphics.setColor(0, 1, 0, 1)
 	love.graphics.print( love.timer.getFPS(), 5, 5)
+	love.graphics.setColor(1, 1, 1, 1)
 end

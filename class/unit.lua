@@ -82,10 +82,10 @@ end
 
 function Unit:move(node)
     -- Remove self from original position on grid
-    self.grid:set(self.x, self.y, nil)
+    self.grid[self.x][self.y] = nil
     -- Update position, and insert self back into grid
     self.x, self.y = node.x, node.y
-    self.grid:set(self.x, self.y, self)
+    self.grid[self.x][self.y] = self
     self.movementPoints = self.movementPoints - node.fCost
 end
 

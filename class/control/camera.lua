@@ -1,10 +1,15 @@
+local gamera = require('libraries/gamera')
 local class = require('libraries/middleclass')
+
 local CameraController = class('CameraController')
 
 function CameraController:create(camera)
-    self.camera = camera
-	self.camera:setScale(Game.scale)
-	self.gameScale = 1
+    self.gameWidth = 240
+    self.gameHeight = 160
+    self.viewScale = 1
+    self.camera = gamera.new(0, 0, 240, 160)
+
+    self:resize(love.graphics.getWidth(), love.graphics.getHeight())
 end
 
 function CameraController:mousemoved(x, y, dx, dy, istouch)
@@ -16,11 +21,11 @@ function CameraController:mousemoved(x, y, dx, dy, istouch)
 end
 
 function CameraController:wheelmoved(x, y)
-    self.gameScale = self.gameScale + (y*0.1)
-    if self.gameScale < 0.5 then
-        self.gameScale = 0.5
-    elseif self.gameScale > 3 then
-        self.gameScale = 3
+    self.viewScale = self.viewScale + (y*0.1)
+    if self.viewScale < 1 then
+        self.viewScale = 1
+    elseif self.viewScale > 3 then
+        self.viewScale = 3
     end
     self:resize(love.graphics.getWidth(), love.graphics.getHeight())
 end
@@ -28,12 +33,14 @@ end
 function CameraController:resize(w, h)
     self.scene.map:resize(w, h)
     self.camera:setWindow(0, 0, w, h)
-    if (w/Game.width) < (h/Game.height) then
-        self.camera:setScale((w/Game.width)*self.gameScale)
+    if (w/self.gameWidth) < (h/self.gameHeight) then
+        self.camera:setScale((w/self.gameWidth)*self.viewScale)
+        self.winScale = w/self.gameWidth
     else
-        self.camera:setScale((h/Game.height)*self.gameScale)
+        self.camera:setScale((h/self.gameHeight)*self.viewScale)
+        self.winScale = h/self.gameHeight
     end
-    Res.font = love.graphics.newFont('resources/font.ttf', 8*self.camera.scale)
+    Res.font = love.graphics.newFont('resources/font.ttf', 8*self.winScale)
 end
 
 return CameraController

@@ -4,24 +4,23 @@ local Widget = require('class/widget')
 
 local TerrainWidget = class('TerrainWidget', Widget)
 
-function TerrainWidget:create(camera)
+function TerrainWidget:create()
     Widget.create(self, 80, 24)
     self.location = 'left'
-    self.camera = camera
 end
 
 function TerrainWidget:update()
     local grid = self.scene.grid
     local map = self.scene.map
+    local camera = self.scene.interface.camera
 
-    local mouseX, mouseY = self.camera:toWorld(love.mouse.getPosition())
+    local mouseX, mouseY = camera:toWorld(love.mouse.getPosition())
     local cellX, cellY = grid:toGrid(mouseX, mouseY)
 
     for layer=#map.layers, 0, -1 do
-        if (cellX > 0) and (cellY > 0) and (cellX <= grid.cells.width) and (cellY <= grid.cells.height) then
-            if map.layers[layer].data[cellY] and map.layers[layer].data[cellY][cellX] then
+        if (cellX > 0) and (cellY > 0) and (cellX <= grid.width) and (cellY <= grid.height) then
+            if map.layers[layer].data and map.layers[layer].data[cellY] and map.layers[layer].data[cellY][cellX] then
                 self.tile = map.layers[layer].data[cellY][cellX]
-                self.tileIsWall = (map.layers['Wall'].data[cellY][cellX] ~= nil)
                 break
             end
         end

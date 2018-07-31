@@ -1,9 +1,9 @@
 local sti = require('libraries/sti')
 local pathfinder = require('libraries/pathfinder')
+local Grid = require('libraries/grid')
 
 local Deck = require('class/deck')
 local Desktop = require('class/interface/desktop')
-local Grid = require('class/grid')
 local Scene = require('class/scene')
 
 -- Units
@@ -39,57 +39,54 @@ end
 function scene:loadMap(file)
 	-- Load STI Map
 	self.map = sti(file)
-	self.grid = self:newInstance(Grid, {self.map.width, self.map.height, 16}, 'update', 'draw')
+	self.grid = Grid(self.map.width, self.map.height, 16)
 	for x=1, self.map.width do
 		for y=1, self.map.height do
-			if self.map.layers['Unit'].data[y][x] then
+			if self.map.layers['unit'].data[y][x] then
 				local unitTypes = {
 					archer = Archer,
 					knight = Knight,
 					militia = Militia,
 					mountedKnight = MountedKnight,
 				}
-				local properties = self.map:getTileProperties('Unit', x, y)
+				local properties = self.map:getTileProperties('unit', x, y)
 				local unit = self:newInstance(unitTypes[properties.type], {self.grid, x, y, properties.team}, 'draw', 'turn')
-				unit.quad = self.map.layers['Unit'].data[y][x].quad
+				unit.quad = self.map.layers['unit'].data[y][x].quad
 			end
 		end
 	end
-	self.map:removeLayer('Unit')
+	self.map:removeLayer('unit')
 
 	-- Setup nodes for pathfinding
 	self.nodes = {}
 	for x=1, self.map.width do
 		for y=1, self.map.height do
-			if not self.map.layers['Wall'].data[y][x] then
-				local gCost = self.map:getTileProperties('Main', x, y).movementCost
+			if not self.map.layers['wall'].data[y][x] then
+				local gCost = self.map:getTileProperties('main', x, y).movementCost
 				pathfinder.getNode(self.nodes, x, y, gCost)
 			end
 		end
-	end	self:resize(love.graphics.getWidth(), love.graphics.getHeight())
+	end
 	pathfinder.setupNeighbors(self.nodes)
 end
 
 -- Event Functions
 function scene:mousepressed(x, y, button)
 	self.interface:mousepressed(x, y, button)
-	self:exec('mouse', 'mousepressed', x, y, button)
+	self:exec('mousepressed', 'mousepressed', x, y, button)
 end
 
 function scene:mousemoved(x, y, dx, dy, istouch)
-	self:exec('mouse', 'mousemoved', x, y, dx, dy, istouch)
+	self:exec('mousemoved', 'mousemoved', x, y, dx, dy, istouch)
 end
 
 function scene:wheelmoved(x, y)
-	self:exec('mouse', 'wheelmoved', x, y)
+	self:exec('mousewheel', 'wheelmoved', x, y)
 end
 
 function scene:keypressed(key)
+	self.interface:keypressed(key)
 	self:exec('keyboard', 'keypressed', key)
-
-	if key == 'space' then
-		self:beginTurn(self.turn+1)
-	end
 end
 
 function scene:keyreleased(key)
@@ -98,6 +95,7 @@ end
 
 function scene:resize(w, h)
 	self:exec('resize', 'resize', w, h)
+	self.interface:resize(w, h)
 end
 
 function scene:update(dt)
@@ -120,6 +118,8 @@ function scene:beginTurn()
 	if #hand < 5 then
 		table.insert(hand, deck:pull())
 	end
+
+	self.interface:beginTurn()
 end
 
 return scene

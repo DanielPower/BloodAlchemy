@@ -8,15 +8,16 @@ UnitWidget.healthOutlineColor = {0.227, 0.169, 0.137, 1.000}
 UnitWidget.energyFillColor = {0.918, 0.584, 0.078, 1.000}
 UnitWidget.energyOutlineColor = {0.227, 0.169, 0.137, 1.000}
 
-function UnitWidget:create(camera)
+function UnitWidget:create()
     Widget.create(self, 80, 32)
-    self.camera = camera
 end
 
 function UnitWidget:update(dt)
     local grid = self.scene.grid
     local selected = self.scene.selected
-    local mouseX, mouseY = self.camera:toWorld(love.mouse.getPosition())
+    local camera = self.scene.interface.camera
+
+    local mouseX, mouseY = camera:toWorld(love.mouse.getPosition())
     local cellX, cellY = grid:toGrid(mouseX, mouseY)
 
     if selected then

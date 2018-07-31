@@ -34,6 +34,14 @@ function Scene:newInstance(class, args, ...)
 	return instance
 end
 
+function Scene:destroyInstance(instance)
+	if instance.destroy then
+		instance:destroy()
+	end
+	self.destroyQueue[instance] = true
+	return instance
+end
+
 function Scene:add(instance, ...)
 	local groups = {...}
 	for _, group in pairs(groups) do
@@ -67,14 +75,6 @@ function Scene:remove(instance, ...)
 	end
 end
 
-function Scene:destroyInstance(instance)
-	if instance.destroy then
-		instance:destroy()
-	end
-	self.destroyQueue[instance] = true
-	return instance
-end
-
 function Scene:exec(group, func, ...)
 	-- Remove any instances in the destroyQueue first
 	for instance in pairs(self.destroyQueue) do
@@ -91,11 +91,11 @@ function Scene:exec(group, func, ...)
 				local o = instance[func](instance, unpack(args))
 				table.insert(output, o)
 			else
-				-- print("[Warning] Instance '"..instance.class.name.."' does not have a function '"..func.."'")
+				print("[Warning] Instance '"..instance.class.name.."' does not have a function '"..func.."'")
 			end
 		end
 	else
-		-- print("[Warning] ExecList '"..group.."' does not exist")
+		print("[Warning] ExecList '"..group.."' does not exist")
 	end
 
 	return output
