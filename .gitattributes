@@ -1,0 +1,6 @@
+libraries/gamera/** linguist-vendored
+libraries/inspect/** linguist-vendored
+libraries/sti/** linguist-vendored
+libraries/middleclass.lua linguist-vendored
+libraries/pathfinder.lua linguist-vendored
+resources/**/map.lua linguist-generated
